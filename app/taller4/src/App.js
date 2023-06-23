@@ -1,14 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
 import SongCard from './components/SongCard';
-import Playlist from './pages/Playlist';
+import AllPlaylist from './pages/AllPlaylist';
 import Allsongs from './pages/Allsongs';
+import Login from './pages/Login';
 
 function App() {
   return (
     <div className="App">
-    <Playlist/>
-    <Allsongs/>
+    <Login />
     </div>
   );
 }

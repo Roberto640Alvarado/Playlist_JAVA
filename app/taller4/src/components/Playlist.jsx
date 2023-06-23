@@ -27,14 +27,8 @@ const Playlist = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-2xl font-bold mb-4">Playlist</h1>
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Buscar canciones"
-          className="border border-gray-300 rounded px-4 py-2"
-        />
-      </div>
+      
+      
       <div id="play" className="bg-purple-100 p-4 rounded-lg">
         <div className="mb-4">
           <h2 className="text-2xl font-bold">{playlistName}</h2>
