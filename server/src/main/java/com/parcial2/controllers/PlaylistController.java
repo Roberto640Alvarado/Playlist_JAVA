@@ -122,9 +122,9 @@ public class PlaylistController {
 	    }
 	}
     
-    @GetMapping("/playlists")
+   /* @GetMapping("/playlists")
     public ResponseEntity<?> getAllPlaylists() {
         List<Playlist> playlists = playlistService.findAll();
         return new ResponseEntity<>(playlists, HttpStatus.OK);
-    }
+    }*/
 }

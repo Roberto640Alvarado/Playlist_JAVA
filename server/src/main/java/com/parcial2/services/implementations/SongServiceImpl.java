@@ -1,11 +1,11 @@
 package com.parcial2.services.implementations;
 
-import java.time.Duration;
-import java.util.List;
 import java.util.UUID;
 
-import org.postgresql.util.PGInterval;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.parcial2.models.dtos.SaveSongDTO;
@@ -58,9 +58,10 @@ public class SongServiceImpl implements SongService {
 	}
 
 	@Override
-	public List<Song> findAll() {
+	public Page<Song> findAll(int page, int size) {
 		// TODO Auto-generated method stub
-		return songRepository.findAll();
+		Pageable pageable = PageRequest.of(page, size);
+		return songRepository.findAll(pageable);
 	}
 
 	@Override
@@ -78,5 +79,6 @@ public class SongServiceImpl implements SongService {
 		
 		songRepository.save(song);
 	}
+
 	
 }

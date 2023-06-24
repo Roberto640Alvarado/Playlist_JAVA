@@ -3,6 +3,8 @@ package com.parcial2.services;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+
 import com.parcial2.models.dtos.SavePlaylistDTO;
 import com.parcial2.models.entities.Playlist;
 import com.parcial2.models.entities.User;

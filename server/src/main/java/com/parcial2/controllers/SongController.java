@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.parcial2.models.dtos.MessageDTO;
+import com.parcial2.models.dtos.PageDTO;
 import com.parcial2.models.dtos.SaveSongDTO;
 import com.parcial2.models.entities.Song;
 import com.parcial2.services.SongService;
@@ -116,8 +118,11 @@ public class SongController {
 
 	
 	@GetMapping("/song")
-	public ResponseEntity<?>findAllSongs(@RequestParam(defaultValue = "")String title){
-		List<Song> songs = songService.findAll();
+	public ResponseEntity<?>findAllSongs(@RequestParam(defaultValue = "0")int page,
+			@RequestParam(defaultValue = "5")int size,
+			@RequestParam(defaultValue = "")String title){
+		
+		Page<Song> songs = songService.findAll(page,size);
 		List<Song> songsMatch = new ArrayList<>();
 		if (title != "") {
 			//songs.contains(title);
@@ -138,8 +143,12 @@ public class SongController {
 			
 		}
 		return new ResponseEntity<>(
-					songs,
-					HttpStatus.OK
+				new PageDTO<Song>(songs.getContent(),
+						songs.getNumber(),
+						songs.getSize(),
+						songs.getTotalElements(),
+						songs.getTotalPages()),
+					HttpStatus.OK 
 				);
 		
 	}
