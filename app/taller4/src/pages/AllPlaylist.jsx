@@ -1,5 +1,4 @@
 import React from 'react';
-import SongCard from '../components/SongCard';
 import Playlist from '../components/Playlist';
 
 const AllPlaylist = () => {

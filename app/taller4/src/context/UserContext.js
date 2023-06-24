@@ -7,7 +7,7 @@ const context = {
         const asyncFetchUser = async (identifier, password) => {
         let response = await AuthServices.login(identifier, password);
         let responseCode = await AuthServices.verifyToken(response.content);
-        if (response.hasError) return false;
+        if (response.hasError) return { status: 400, code: null };
     
         if (localStorage.getItem("content")) {
             localStorage.removeItem("content");
@@ -19,7 +19,7 @@ const context = {
         localStorage.setItem("code", responseCode.content.code);
         localStorage.setItem("hasLoggedIn", "true");
     
-            return responseCode.content.code;
+          return { status: response.status, code: responseCode.content.code };
         }
         
         return asyncFetchUser(identifier, password);
@@ -40,4 +40,4 @@ const context = {
         return localStorage.getItem("hasLoggedIn")
     }
 }
-export default context
+export default context;

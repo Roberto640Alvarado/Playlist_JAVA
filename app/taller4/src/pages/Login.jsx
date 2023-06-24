@@ -1,34 +1,37 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import context from '../context/UserContext';
+import AuthServices from "../services/AuthServices";
 
 const Login = () => {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
 
- const navigate = useNavigate();
-
- const LoginForm = async () =>{
-  let response = await context.login(identifier, password);
-  if(response.status === 200){
-    //Navigate a Home o todas las palylist
-    navigate('/home');
-  }else{
-    //Mostrar mensaje de error
-  }
- }
+  const navigate = useNavigate();
 
   const handleIdentifierChange = (e) => {
-    setEmail(e.target.value);
+    setIdentifier(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Realizar lógica de autenticación o enviar datos a un servidor
+    try {
+      let response = await AuthServices.login(identifier, password);
+      if (response.status === 200) {
+        //Navigate a Home o todas las palylist
+        navigate('/allplaylist');
+      } else {
+        //Mostrar mensaje de error
+        console.log('Error al iniciar sesión');
+      }
+    } catch (error) {
+      console.log('Error al iniciar sesión', error);
+    }
 
     // Reiniciar los campos del formulario
     setIdentifier('');
@@ -41,14 +44,13 @@ const Login = () => {
         <h2 className="text-2xl text-center font-bold mb-6">Iniciar sesión</h2>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-            Email
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Identificador
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="email"
-            type="email"
-            placeholder="Ingrese su email"
+            id="identifier"
+            placeholder="Ingrese su identificador"
             value={identifier}
             onChange={handleIdentifierChange}
             required
