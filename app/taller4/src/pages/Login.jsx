@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleEmailChange = (e) => {
+ const navigate = useNavigate();
+
+ const LoginForm = async () =>{
+  let response = await context.login(identifier, password);
+  if(response.status === 200){
+    //Navigate a Home o todas las palylist
+    navigate('/home');
+  }else{
+    //Mostrar mensaje de error
+  }
+ }
+
+  const handleIdentifierChange = (e) => {
     setEmail(e.target.value);
   };
 
@@ -18,7 +31,7 @@ const Login = () => {
     // Realizar lógica de autenticación o enviar datos a un servidor
 
     // Reiniciar los campos del formulario
-    setEmail('');
+    setIdentifier('');
     setPassword('');
   };
 
@@ -36,8 +49,8 @@ const Login = () => {
             id="email"
             type="email"
             placeholder="Ingrese su email"
-            value={email}
-            onChange={handleEmailChange}
+            value={identifier}
+            onChange={handleIdentifierChange}
             required
           />
         </div>
