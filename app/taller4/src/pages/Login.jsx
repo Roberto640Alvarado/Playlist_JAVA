@@ -4,8 +4,8 @@ import context from '../context/UserContext';
 import AuthServices from "../services/AuthServices";
 
 const Login = () => {
-  const [identifier, setIdentifier] = useState('');
-  const [password, setPassword] = useState('');
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
@@ -21,8 +21,9 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      let response = await AuthServices.login(identifier, password);
-      if (response.status === 200) {
+      let response = await AuthServices.login(identifier, password); //context.login(identifier, password); //AuthServices.login(identifier, password);
+      console.log(response);
+      if (response != null) {
         //Navigate a Home o todas las palylist
         navigate('/allplaylist');
       } else {
