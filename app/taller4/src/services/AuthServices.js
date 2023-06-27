@@ -17,14 +17,17 @@ const authService = {
         try {
 
             let response = await API.post('/auth/login', payload);
-
-            if (response.statusText === "OK") {
+            //console.log(response);
+            //console.log(response.data);
+            //console.log(response.status);
+            if (response.status === 200) {
                 return response.data;
             } else {
-                throw new Error(response.statusText);
+                throw new Error(response.status);
             }
 
         } catch (error) {
+            console.log(error);
             return {
                 hasError: true,
             };
