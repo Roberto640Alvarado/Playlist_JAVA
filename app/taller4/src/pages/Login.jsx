@@ -21,7 +21,8 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      let response = await AuthServices.login(identifier, password); //context.login(identifier, password); //AuthServices.login(identifier, password);
+      //let response = AuthServices.login(identifier, password);
+      let response = await context.login(identifier, password);
       console.log(response);
       if (response != null) {
         //Navigate a Home o todas las palylist
