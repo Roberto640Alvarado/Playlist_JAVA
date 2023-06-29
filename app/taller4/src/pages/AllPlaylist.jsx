@@ -13,7 +13,7 @@ const AllPlaylist = () => {
         console.log(token);
         let response = await AppServices.findAllPlaylistsByUser(token, 0, 5);
         console.log(response);
-       
+      
     };
     
     fetchData();
