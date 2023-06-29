@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.parcial2.models.dtos.MessageDTO;
@@ -166,8 +168,9 @@ public class PlaylistXSongController {
 	
 	
 	@GetMapping("/allPlaylist")
-	public ResponseEntity<?>getAllPlaylist(){
-		List<PlaylistXSong> playlists = playlistXSongService.findAll();
+	public ResponseEntity<?>getAllPlaylist(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size){ 
+		Page<PlaylistXSong> playlists = playlistXSongService.findAll(page,size);
 		return new ResponseEntity<>(playlists, HttpStatus.OK);
 	}
 	

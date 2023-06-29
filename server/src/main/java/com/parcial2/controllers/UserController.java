@@ -3,8 +3,10 @@ package com.parcial2.controllers;
 import java.util.List;
 import java.util.UUID;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -29,6 +31,7 @@ import jakarta.validation.Valid;
 
 import com.parcial2.models.dtos.LoginDTO;
 import com.parcial2.models.dtos.MessageDTO;
+import com.parcial2.models.dtos.PageDTO;
 import com.parcial2.models.dtos.PasswordDTO;
 import com.parcial2.models.entities.Playlist;
 import com.parcial2.models.entities.Token;
@@ -134,40 +137,42 @@ public ResponseEntity<?> getUserById(@PathVariable(name = "id") UUID id) {
 		}
     
     
-    @GetMapping("/playlist")
-    public ResponseEntity<?> findAllPlaylistsByUser(@RequestParam(name = "title", required = false) String title) {
+	@GetMapping("/playlist")
+	public ResponseEntity<PageDTO<Playlist>> findAllPlaylistsByUser(@RequestParam(defaultValue = "0") int page,
+	                                                                 @RequestParam(defaultValue = "5") int size,
+	                                                                 @RequestParam(name = "title", required = false) String title) {
 
-   
-        User user = userService.findUserAuthenticated();
+	    User user = userService.findUserAuthenticated();
 
-        if (user == null) {
-            return new ResponseEntity<>(
-                    new MessageDTO("User not found!"),
-                    HttpStatus.NOT_FOUND
-            );
-        }
+	    if (user == null) {
+	        return new ResponseEntity<>(
+	                new PageDTO<>(Collections.emptyList(), 0, 0, 0, 0),
+	                HttpStatus.NOT_FOUND
+	        );
+	    }
 
-        List<Playlist> playlists = playlistService.findAll();
-        List<Playlist> playlistsMatch = new ArrayList<>();
-        if (title != null && !title.isEmpty()) {
-            for (Playlist playlist : playlists) {
-                String playlistTitle = playlist.getTitle();
-                if (playlistTitle.toUpperCase().contains(title.toUpperCase())) {
-                    playlistsMatch.add(playlist);
-                }
-            }
-            return new ResponseEntity<>(
-                    playlistsMatch,
-                    HttpStatus.OK
-            );
-        } else {
-            List<Playlist> userPlaylists = user.getPlaylists();
-            return new ResponseEntity<>(
-                    userPlaylists,
-                    HttpStatus.OK
-            );
-        }
-    }
+	    Page<Playlist> playlists = playlistService.findAll(page, size);
+	    List<Playlist> playlistsMatch = new ArrayList<>();
+	    if (title != null && !title.isEmpty()) {
+	        for (Playlist playlist : playlists) {
+	            String playlistTitle = playlist.getTitle();
+	            if (playlistTitle.toUpperCase().contains(title.toUpperCase())) {
+	                playlistsMatch.add(playlist);
+	            }
+	        }
+	        return new ResponseEntity<>(
+	                new PageDTO<>(playlistsMatch, playlists.getNumber(), playlists.getSize(), playlists.getTotalElements(), playlists.getTotalPages()),
+	                HttpStatus.OK
+	        );
+	    } else {
+	        List<Playlist> userPlaylists = user.getPlaylists();
+	        return new ResponseEntity<>(
+	                new PageDTO<>(userPlaylists, 0, userPlaylists.size(), userPlaylists.size(), 1),
+	                HttpStatus.OK
+	        );
+	    }
+	}
+
 
 	
     @PostMapping("/playlist")

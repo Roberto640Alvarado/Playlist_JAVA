@@ -13,7 +13,7 @@ public interface PlaylistService {
     void save(SavePlaylistDTO info, User user) throws Exception;
     void deleteById(String id) throws Exception;
     Playlist findOneById(UUID id);
-    List<Playlist> findAll();
+    public Page<Playlist> findAll(int page, int size);
     void updatePlaylist(UUID playlistCode, String newTitle, String newDescription) throws Exception;
     Playlist findOneTitle(String title);
 }
