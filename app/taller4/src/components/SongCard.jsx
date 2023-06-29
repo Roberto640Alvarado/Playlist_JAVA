@@ -1,6 +1,7 @@
 import React from 'react';
 
-const SongCard = ({ title, duration }) => {
+
+const SongCard = (props) => {
   return (
     <div className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-lg rounded-lg overflow-hidden w-full sm:w-96 flex items-center">
       <img
@@ -8,26 +9,19 @@ const SongCard = ({ title, duration }) => {
         alt="Imagen del artista"
         className="w-32 h-32 rounded-full mr-4"
       />
-      <div>
-        <div className="flex flex-col">
-          <div className="flex items-start">
-            <p className="text-lg font-bold break-words text-left">Canción: {title}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="text-lg font-bold">Duración: {duration}</p>
+      <div className="flex flex-col w-full">
+        <div className="flex items-start justify-between">
+          <p className="text-lg font-bold break-words text-left">Canción: {props.title}</p>
+          <div  className='px-6 '>
+          <input type="checkbox" className="w-8 h-8" />
           </div>
         </div>
-        
+        <div className="flex items-center">
+          <p className="text-lg font-bold">Duración: {props.duration}</p>
+        </div>
       </div>
     </div>
   );
 };
 
 export default SongCard;
-
-
-
-
-
-
-
