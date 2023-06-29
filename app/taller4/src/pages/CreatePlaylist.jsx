@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import context from '../context/UserContext';
+import appService from '../services/AppServices';
 
 const CreatePlaylist = () => {
   const [playlistName, setPlaylistName] = useState('');
@@ -29,11 +31,25 @@ const CreatePlaylist = () => {
     setSongs(updatedSongs);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     // Realizar lógica de creación de la playlist o enviar datos a un servidor
-
+    let content = context.getToken();
+    let payload = {
+      title:playlistName,
+      description:playlistDescription,
+    };
+    
+    try {
+      let response = await appService.createPlaylist(content,payload);
+      if (response != null) {
+      alert(response.message);
+    }
+    console.log(response.message);
+    } catch (error) {
+      console.log('Error',error);
+    }  
     // Reiniciar los campos del formulario
     setPlaylistName('');
     setPlaylistDescription('');
