@@ -2,24 +2,7 @@ import React from 'react';
 import SongCard from '../components/SongCard';
 
 const Playlist = () => {
-  const songs = [
-    {
-      id: 1,
-      title: "Fly me to the moon",
-      duration: "2:20"
-    },
-    {
-      id: 2,
-      title: "Bohemian Rhapsody",
-      duration: "5:55"
-    },
-    {
-      id: 3,
-      title: "Hotel California",
-      duration: "6:30"
-    }
-    // Agrega más canciones aquí
-  ];
+  const songs = [];
 
   const playlistName = "Favoritas";
   const creator = "Juan Perez";
