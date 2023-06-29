@@ -136,7 +136,6 @@ public ResponseEntity<?> getUserById(@PathVariable(name = "id") UUID id) {
 			}
 		}
     
-    
 	@GetMapping("/playlist")
 	public ResponseEntity<PageDTO<Playlist>> findAllPlaylistsByUser(@RequestParam(defaultValue = "0") int page,
 	                                                                 @RequestParam(defaultValue = "5") int size,
