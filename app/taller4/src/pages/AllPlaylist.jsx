@@ -1,7 +1,25 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import Playlist from '../components/Playlist';
+import AppServices from "../services/AppServices";
+import context from '../context/UserContext';
 
 const AllPlaylist = () => {
+
+  const [playlists, setPlaylists] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+        let token = context.getToken();
+        console.log(token);
+        let response = await AppServices.findAllPlaylistsByUser(token, 0, 5);
+        console.log(response);
+       
+    };
+    
+    fetchData();
+}, []);
+
+  
   
   return (
     <div>
