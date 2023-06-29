@@ -32,6 +32,22 @@ const appService = {
                 hasError: true,
             };
         }
+    },
+    createPlaylist: async (content, playload) =>{
+        try {
+            const response = await API.post('/user/playlist', playload,{
+                headers: {
+                    Authorization: `Bearer ${content}`
+                }
+            });
+            if (response.status === 201) {
+                return response.data;
+            } else {
+                throw new Error("Something went wrong");
+            }
+        } catch (error) {
+            return {error: error}
+        }
     }
 }
 
