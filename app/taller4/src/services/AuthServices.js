@@ -21,7 +21,7 @@ const authService = {
             //console.log(response.data);
             //console.log(response.status);
             if (response.status === 200) {
-                return response.data;
+                return response;
             } else {
                 throw new Error(response.status);
             }
@@ -34,17 +34,19 @@ const authService = {
         }
     },
     verifyToken: async (token) => {
+        //console.log(token);
         try {
             let response = await API.get('/auth/whoami', {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
             });
-
-            if (response.statusText === "OK") {
+            //console.log(response);
+            if (response.status === 200) {
+                //console.log(response.data);
                 return response.data;
             } else {
-                throw new Error(response.statusText);
+                throw new Error(response.status);
             }
         } catch (error) {
             console.log(error);

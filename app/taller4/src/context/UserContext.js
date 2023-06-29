@@ -6,9 +6,9 @@ const context = {
     
         const asyncFetchUser = async (identifier, password) => {
         let response = await AuthServices.login(identifier, password);
-        //console.log(response);
-        let responseCode = await AuthServices.verifyToken(response.content);
-        //console.log(responseCode);
+        //console.log(response.data.token);
+        let responseCode = await AuthServices.verifyToken(response.data.token);//Esto da error
+        //console.log(responseCode.code); 
         if (response.hasError) return false; //{ status: 400, code: null };
     
         if (localStorage.getItem("content")) {
@@ -17,11 +17,11 @@ const context = {
             localStorage.removeItem("hasLoggedIn", false);
         }
     
-        localStorage.setItem("content", response.content);
-        localStorage.setItem("code", responseCode.content.code);
+        localStorage.setItem("content", response.data.token);
+        localStorage.setItem("code", responseCode.code);
         localStorage.setItem("hasLoggedIn", "true");
     
-            return responseCode.content.code; //{ status: response.status, code: responseCode.content.code };
+            return { status: response.status, code: responseCode.code, active:responseCode.active };//"Logueado";
         }
         
         return asyncFetchUser(identifier, password);
