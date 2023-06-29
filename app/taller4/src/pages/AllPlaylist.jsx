@@ -4,6 +4,8 @@ import Playlist from '../components/Playlist';
 const AllPlaylist = () => {
   
   return (
+
+    <>
     <div>
     <h1 className="text-2xl font-bold mb-4">Todas las Playlist</h1>
     <div className="mb-4">
@@ -15,6 +17,7 @@ const AllPlaylist = () => {
       </div>
     <Playlist/>
     </div>
+    </>
     
   );
 };
