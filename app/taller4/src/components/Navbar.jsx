@@ -12,7 +12,7 @@ export const Navbar = () => {
     }
 
     const handleCreatePlaylist = () => {
-        navigate('/create-playlist');
+        navigate('/createplaylist');
     }
 
     const handleMySongs = () => {

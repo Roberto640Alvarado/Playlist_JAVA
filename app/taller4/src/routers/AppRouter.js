@@ -10,9 +10,10 @@ import { Navbar } from "../components/Navbar";
 export const AppRouter = () => {
   return (
     <Router>
+      <Navbar />
       <div>
         <Routes>
-          <Route path="/" element={<Navbar />} />
+          <Route path="/" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/allplaylist" element={<AllPlaylist />} />
           <Route path="/allsongs" element={<Allsongs/>} />
