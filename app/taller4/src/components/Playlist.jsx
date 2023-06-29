@@ -1,32 +1,17 @@
 import React from 'react';
-import SongCard from '../components/SongCard';
 
-const Playlist = () => {
-  const songs = [];
-
-  const playlistName = "Favoritas";
-  const creator = "Juan Perez";
-  const description = "Canciones favoritas de Juan Perez";
-
+const Playlist = (props) => {
   return (
-    <div className="flex flex-col items-center">
-      
-      
-      <div id="play" className="bg-purple-100 p-4 rounded-lg">
-        <div className="mb-4">
-          <h2 className="text-2xl font-bold">{playlistName}</h2>
-          <p className="text-lg">Creado por: {creator}</p>
-          <p className="text-lg">Descripcion : {description}</p>
-        </div>
-        <div>
-          {songs.map(song => (
-            <div key={song.id} className="mb-4">
-              <SongCard
-                title={song.title}
-                duration={song.duration}
-              />
-            </div>
-          ))}
+    <div className="flex items-center justify-center">
+      <div className="w-64 bg-purple-100 rounded-lg overflow-hidden shadow-lg mx-4 my-8">
+        <div className="p-4">
+          <h2 className="text-xl font-bold mb-2">{props.title}</h2>
+          <p className="text-sm text-gray-600 mb-4">Descripción: {props.description}</p>
+          <div className="flex justify-center mt-4">
+            <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+              Agregar canciones
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -34,3 +19,5 @@ const Playlist = () => {
 };
 
 export default Playlist;
+
+
