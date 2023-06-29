@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Playlist from '../components/Playlist';
 import AppServices from "../services/AppServices";
 import context from '../context/UserContext';
-
+import Buttons from '../components/Buttons';
 
 const AllPlaylist = () => {
 
@@ -28,7 +28,7 @@ const AllPlaylist = () => {
 
     <>
       <div>
-        <h1 className="text-2xl font-bold mb-4">Todas las Playlist</h1>
+        <h1 className="text-4xl font-bold m-4">Todas las Playlist</h1>
         <div className="mb-4">
           <input
             type="text"
@@ -36,6 +36,7 @@ const AllPlaylist = () => {
             className="border border-gray-300 rounded px-4 py-2"
           />
         </div >
+        <div className='grid grid-cols-3 px-32'>
         {playlists.map((post) => {
           return (
             <Playlist
@@ -46,7 +47,9 @@ const AllPlaylist = () => {
             />
           );
         })}
+        </div>
       </div>
+      <Buttons />
     </>
 
   );
