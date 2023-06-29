@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import context from '../context/UserContext';
 
 export const Navbar = () => {
 
@@ -23,7 +24,8 @@ export const Navbar = () => {
     }
 
     const handleLogout = () => {
-        navigate('/logout');
+      context.logout();
+        navigate('/login');
     }
 
 
