@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { registerService } from '../services/RegisterService';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -23,11 +24,20 @@ const Register = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-
     // Realizar lógica de registro o enviar datos a un servidor
-
+    try {
+      let response = await registerService.register(name,email,password);
+      console.log(response);
+      if (response != null) {
+        alert('Usuario Creado');
+      }else{
+        console.log('No se pudo crear el usuario');
+      }
+    } catch (error) {
+      console.log('Error',error);
+    }
     // Reiniciar los campos del formulario
     setName('');
     setEmail('');
