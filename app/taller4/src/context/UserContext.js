@@ -39,7 +39,7 @@ const context = {
         return localStorage.getItem("code");
     },
     isUserLogged: () => {
-        return localStorage.getItem("hasLoggedIn")
+        return !!localStorage.getItem("hasLoggedIn")
     }
 }
 export default context;
