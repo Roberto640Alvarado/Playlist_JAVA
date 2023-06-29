@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const Playlist = (props) => {
+
+  const [code, setCode] = useState("");
+  const navigate = useNavigate();
+
+  //Obtener el código de la playlist
+  const getCode = () => {
+    setCode(props.code);
+    navigate(`/playlist/${props.code}`);
+  }
+
   return (
-    <div className="flex items-center justify-center">
+    <div onClick={getCode} className="flex items-center justify-center">
       <div className="w-64 bg-purple-100 rounded-lg overflow-hidden shadow-lg mx-4 my-8">
         <div className="p-4">
           <h2 className="text-xl font-bold mb-2">{props.title}</h2>

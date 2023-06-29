@@ -6,6 +6,7 @@ import Allsongs from "../pages/Allsongs";
 import Register from "../pages/Register";
 import CreatePlaylist from "../pages/CreatePlaylist";
 import { Navbar } from "../components/Navbar";
+import PlaylistDetails from "../pages/PlaylistDetails";
 
 export const AppRouter = () => {
   return (
@@ -18,6 +19,7 @@ export const AppRouter = () => {
           <Route path="/allplaylist" element={<AllPlaylist />} />
           <Route path="/allsongs" element={<Allsongs/>} />
           <Route path="/createplaylist" element={<CreatePlaylist/>} />
+          <Route path="/playlist/:code" element={<PlaylistDetails/>} />
         </Routes>
       </div>
     </Router>

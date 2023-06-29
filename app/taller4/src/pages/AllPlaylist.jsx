@@ -3,6 +3,7 @@ import Playlist from '../components/Playlist';
 import AppServices from "../services/AppServices";
 import context from '../context/UserContext';
 
+
 const AllPlaylist = () => {
 
   const [playlists, setPlaylists] = useState([]);
@@ -14,9 +15,7 @@ const AllPlaylist = () => {
 
   const fetchData = async () => {
     let token = context.getToken();
-    console.log(token);
     let response = await AppServices.findAllPlaylistsByUser(token, 0, 5);
-    console.log(response);
 
     if (!response.error) {
       let data = response.content;
@@ -24,8 +23,6 @@ const AllPlaylist = () => {
     }
 
   };
-
-
 
   return (
 
@@ -38,13 +35,12 @@ const AllPlaylist = () => {
             placeholder="Buscar canciones"
             className="border border-gray-300 rounded px-4 py-2"
           />
-        </div>
+        </div >
         {playlists.map((post) => {
           return (
             <Playlist
-              key={post._id}
-              isMainView={true}
-              code={post._id}
+              key={post.code}
+              code={post.code}
               title={post.title}
               description={post.description}
             />
