@@ -137,10 +137,11 @@ public ResponseEntity<?> getUserById(@PathVariable(name = "id") UUID id) {
 		}
     
 	@GetMapping("/playlist")
-	public ResponseEntity<PageDTO<Playlist>> findAllPlaylistsByUser(@RequestParam(defaultValue = "0") int page,
-	                                                                 @RequestParam(defaultValue = "5") int size,
-	                                                                 @RequestParam(name = "title", required = false) String title) {
-
+	public ResponseEntity<PageDTO<Playlist>> findAllPlaylistsByUser(
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "5") int size,
+	        @RequestParam(name = "title", required = false) String title
+	) {
 	    User user = userService.findUserAuthenticated();
 
 	    if (user == null) {
@@ -150,21 +151,21 @@ public ResponseEntity<?> getUserById(@PathVariable(name = "id") UUID id) {
 	        );
 	    }
 
-	    Page<Playlist> playlists = playlistService.findAll(page, size);
+	    List<Playlist> userPlaylists = user.getPlaylists();
 	    List<Playlist> playlistsMatch = new ArrayList<>();
+
 	    if (title != null && !title.isEmpty()) {
-	        for (Playlist playlist : playlists) {
+	        for (Playlist playlist : userPlaylists) {
 	            String playlistTitle = playlist.getTitle();
 	            if (playlistTitle.toUpperCase().contains(title.toUpperCase())) {
 	                playlistsMatch.add(playlist);
 	            }
 	        }
 	        return new ResponseEntity<>(
-	                new PageDTO<>(playlistsMatch, playlists.getNumber(), playlists.getSize(), playlists.getTotalElements(), playlists.getTotalPages()),
+	                new PageDTO<>(playlistsMatch, 0, playlistsMatch.size(), playlistsMatch.size(), 1),
 	                HttpStatus.OK
 	        );
 	    } else {
-	        List<Playlist> userPlaylists = user.getPlaylists();
 	        return new ResponseEntity<>(
 	                new PageDTO<>(userPlaylists, 0, userPlaylists.size(), userPlaylists.size(), 1),
 	                HttpStatus.OK
