@@ -10,7 +10,7 @@ const API = axios.create({
 });
 
 const AppServices = {
-  findAllPlaylistsByUser: async (token, page = 0, size = 6, title = '') => {
+  findAllPlaylistsByUser: async (token, page = 1, size = 6, title = '') => {
     try {
       const response = await API.get('/user/playlist', {
         params: { page, size, title },
@@ -32,7 +32,7 @@ const AppServices = {
     }
   },
 
-  fetchAllSongs: async (token, page = 0, size = 6, title = '') => {
+  fetchAllSongs: async (token, page = 1, size = 6, title = '') => {
     try {
       const response = await API.get('/song/song', {
         params: { page, size, title },

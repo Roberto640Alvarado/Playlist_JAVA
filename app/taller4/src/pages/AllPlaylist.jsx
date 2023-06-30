@@ -1,46 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import Playlist from '../components/Playlist';
 import AppServices from "../services/AppServices";
-import context from '../context/UserContext';
 import Buttons from '../components/Buttons';
+import context from '../context/UserContext';
 
 const AllPlaylist = () => {
-
   const [playlists, setPlaylists] = useState([]);
-  const [page, setPage] = useState(0);
-  const [title, setTitle] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchTitle, setSearchTitle] = useState('');
 
   useEffect(() => {
-    fetchData();
-  }, [title, page]);
+    fetchPlaylists();
+  }, [currentPage, searchTitle]);
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
-
-  const fetchData = async () => {
+  const fetchPlaylists = async () => {
     let token = context.getToken();
 
-    let response;
-
-    if (title !== '') {
-      response = await AppServices.findAllPlaylistsByUser(token, page, 6, title);
-    } else {
-      response = await AppServices.findAllPlaylistsByUser(token, page, 6);
-    }
-
+    const response = await AppServices.findAllPlaylistsByUser(token, currentPage, 6, searchTitle);
     if (!response.error) {
-      let data = response.content;
-      setPlaylists(data);
+      const { content, total_pages } = response;
+      setPlaylists(content);
+      setTotalPages(total_pages);
     }
   };
 
   const handlePrevPage = () => {
-    setPage(page - 1);
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
   };
 
   const handleNextPage = () => {
-    setPage(page + 1);
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handleTitleChange = (e) => {
+    setSearchTitle(e.target.value);
   };
 
   return (
@@ -51,30 +49,36 @@ const AllPlaylist = () => {
           id='title'
           type="text"
           onChange={handleTitleChange}
-          placeholder="Buscar canciones"
+          placeholder="Buscar playlist"
           className="border border-gray-300 rounded px-4 py-2"
         />
       </div>
-      <div className='grid grid-cols-3 mx-auto'>
-        {playlists.map((post) => {
-          return (
-            <Playlist
-              key={post.code}
-              code={post.code}
-              title={post.title}
-              description={post.description}
-            />
-          );
-        })}
-      </div>
-      <Buttons
-        onPrevPage={handlePrevPage}
-        onNextPage={handleNextPage}
-      />
+      {playlists && playlists.length > 0 ? (
+        <>
+          <div className="grid grid-cols-3 gap-4">
+            {playlists.map((playlist) => (
+              <Playlist
+                key={playlist.code}
+                title={playlist.title}
+                description={playlist.description}
+              />
+            ))}
+          </div>
+          <Buttons
+            onPrevPage={handlePrevPage}
+            onNextPage={handleNextPage}
+            currentPage={currentPage}
+            totalPages={totalPages}
+          />
+        </>
+      ) : (
+        <p>No se encontraron playlists.</p>
+      )}
     </div>
   );
 };
 
 export default AllPlaylist;
+
 
 
