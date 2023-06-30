@@ -1,11 +1,12 @@
 import React from 'react';
 
-export const Buttons = () => {
+export const Buttons = ({ onPrevPage, onNextPage }) => {
   return (
     <div className="flex items-center justify-center space-x-6">
       <button
         type="button"
-        className="bg-gray-800  hover:bg-purple-700 text-white rounded-l-md border-r border-gray-100 py-2  hover:text-white px-3"
+        className="bg-gray-800 hover:bg-purple-700 text-white rounded-l-md border-r border-gray-100 py-2 hover:text-white px-3"
+        onClick={onPrevPage}
       >
         <div className="flex flex-row items-center">
           <svg
@@ -25,7 +26,8 @@ export const Buttons = () => {
       </button>
       <button
         type="button"
-        className="bg-gray-800 hover:bg-purple-700 text-white rounded-r-md py-2 border-l border-gray-200  hover:text-white px-3"
+        className="bg-gray-800 hover:bg-purple-700 text-white rounded-r-md py-2 border-l border-gray-200 hover:text-white px-3"
+        onClick={onNextPage}
       >
         <div className="flex flex-row items-center">
           <span className="mr-2">Next</span>
