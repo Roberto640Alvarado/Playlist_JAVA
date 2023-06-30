@@ -1,5 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import PrivateRoute from '../routers/PrivateRoutes';
+
 import Login from "../pages/Login";
 import AllPlaylist from "../pages/AllPlaylist";
 import Allsongs from "../pages/Allsongs";
@@ -17,48 +19,18 @@ const MainContainer = ({ children }) => {
   );
 };
 
-export const AppRouter = () => {
+const AppRouter = () => {
   return (
-    <Router>
-      <div>
-        <Routes>
-          <Route path="/" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/allsongs"
-            element={
-              <MainContainer>
-                <Allsongs />
-              </MainContainer>
-            }
-          />
-          <Route
-            path="/createplaylist"
-            element={
-              <MainContainer>
-                <CreatePlaylist />
-              </MainContainer>
-            }
-          />
-          <Route
-            path="/allplaylist"
-            element={
-              <MainContainer>
-                <AllPlaylist />
-              </MainContainer>
-            }
-          />
-          <Route
-            path="/playlist/:code"
-            element={
-              <MainContainer>
-                <PlaylistDetails />
-              </MainContainer>
-            }
-          />
-        </Routes>
-      </div>
-    </Router>
+    <div>
+      <Routes>
+        <Route path="/" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/allsongs" element={<PrivateRoute path="/allsongs" element={<Allsongs />} />} />
+        <Route path="/createplaylist" element={<PrivateRoute path="/createplaylist" element={<CreatePlaylist />} />} />
+        <Route path="/allplaylist" element={<MainContainer><AllPlaylist /></MainContainer>} />
+        <Route path="/playlist/:code" element={<MainContainer><PlaylistDetails /></MainContainer>} />
+      </Routes>
+    </div>
   );
 };
 

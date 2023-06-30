@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Buttons = ({ onPrevPage, onNextPage }) => {
   return (
-    <div className="flex items-center justify-center space-x-6">
+    <div className="flex items-center justify-center space-x-6 m-4">
       <button
         type="button"
         className="bg-gray-800 hover:bg-purple-700 text-white rounded-l-md border-r border-gray-100 py-2 hover:text-white px-3"
