@@ -1,5 +1,6 @@
 package com.parcial2.services.implementations;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,12 @@ public class SongServiceImpl implements SongService {
 		song.setDuration(updatedSong.getDuration());
 		
 		songRepository.save(song);
+	}
+
+	@Override
+	public List<Song> getAll() {
+		// TODO Auto-generated method stub
+		return songRepository.findAll();
 	}
 
 	

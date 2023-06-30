@@ -120,38 +120,33 @@ public class SongController {
 
 	
 	@GetMapping("/song")
-	public ResponseEntity<?>findAllSongs(@RequestParam(defaultValue = "0")int page,
-			@RequestParam(defaultValue = "5")int size,
-			@RequestParam(defaultValue = "")String title){
-		
-		Page<Song> songs = songService.findAll(page,size);
-		List<Song> songsMatch = new ArrayList<>();
-		if (title != "") {
-			//songs.contains(title);
-			
-			for(Song song : songs) {
-				String titulo = song.getTitle();
-				if (titulo.toUpperCase().contains(title.toUpperCase())) {
-					songsMatch.add(song);
-					System.out.println(titulo);
-					
-				}
-				
-			}
-			return new ResponseEntity<>(
-					songsMatch,
-						HttpStatus.OK
-					);
-			
-		}
-		return new ResponseEntity<>(
-				new PageDTO<Song>(songs.getContent(),
-						songs.getNumber(),
-						songs.getSize(),
-						songs.getTotalElements(),
-						songs.getTotalPages()),
-					HttpStatus.OK 
-				);
-		
+	public ResponseEntity<?> findAllSongs(@RequestParam(defaultValue = "0") int page,
+	                                      @RequestParam(defaultValue = "6") int size,
+	                                      @RequestParam(defaultValue = "") String title) {
+
+	    List<Song> songs = songService.getAll();
+	    List<Song> songsMatch = new ArrayList<>();
+
+	    if (!title.isEmpty()) {
+	        for (Song song : songs) {
+	            String songTitle = song.getTitle();
+	            if (songTitle.toUpperCase().contains(title.toUpperCase())) {
+	                songsMatch.add(song);
+	            }
+	        }
+	        
+	        return new ResponseEntity<>(
+	                new PageDTO<>(songsMatch, 0, songsMatch.size(), songsMatch.size(), 1),
+	                HttpStatus.OK);
+	    } else {
+	    	return new ResponseEntity<>(
+	                new PageDTO<>(songs, 0, songs.size(), songs.size(), 1),
+	                HttpStatus.OK
+	        );
+	    }
 	}
+
+
+
+
 }
