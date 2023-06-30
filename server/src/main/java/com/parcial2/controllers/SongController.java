@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -120,29 +121,31 @@ public class SongController {
 
 	
 	@GetMapping("/song")
-	public ResponseEntity<?> findAllSongs(@RequestParam(defaultValue = "1") int page,
-	                                      @RequestParam(defaultValue = "6") int size,
-	                                      @RequestParam(defaultValue = "") String title) {
+	public ResponseEntity<PageDTO<Song>> findAllSongs(@RequestParam(defaultValue = "1") int page,
+	                                                  @RequestParam(defaultValue = "6") int size,
+	                                                  @RequestParam(defaultValue = "") String title) {
 
-	    Page<Song> songs;
+	    long totalElements = songService.count(); // Obtener el total de elementos en la base de datos
+	    int totalPages = (int) Math.ceil((double) totalElements / size); // Calcular el número total de páginas
+
 	    List<Song> songsMatch = new ArrayList<>();
 
-	    if (!title.isEmpty()) {
-	        songs = songService.findAll(page - 1, size); // Restamos 1 a la página para ajustar a la indexación base 0
+	    for (int i = 1; i <= totalPages; i++) {
+	        Page<Song> songs = songService.findAll(PageRequest.of(i - 1, size));
+
 	        for (Song song : songs.getContent()) {
-	            String songTitle = song.getTitle();
-	            if (songTitle.toUpperCase().contains(title.toUpperCase())) {
+	            if (song.getTitle().toUpperCase().contains(title.toUpperCase())) {
 	                songsMatch.add(song);
 	            }
 	        }
-	        PageDTO<Song> songPageDTO = new PageDTO<>(songsMatch, page, size, songs.getTotalElements(), songs.getTotalPages());
-	        return new ResponseEntity<>(songPageDTO, HttpStatus.OK);
-	    } else {
-	        songs = songService.findAll(page - 1, size); // Restamos 1 a la página para ajustar a la indexación base 0
-	        PageDTO<Song> songPageDTO = new PageDTO<>(songs.getContent(), page, size, songs.getTotalElements(), songs.getTotalPages());
-	        return new ResponseEntity<>(songPageDTO, HttpStatus.OK);
 	    }
+
+	    List<Song> songsOnCurrentPage = songsMatch.subList((page - 1) * size, Math.min(page * size, songsMatch.size()));
+	    PageDTO<Song> songPageDTO = new PageDTO<>(songsOnCurrentPage, page, size, songsMatch.size(), totalPages);
+
+	    return new ResponseEntity<>(songPageDTO, HttpStatus.OK);
 	}
+
 
 
 

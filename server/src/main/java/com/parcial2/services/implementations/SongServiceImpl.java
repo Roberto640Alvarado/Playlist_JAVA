@@ -87,5 +87,15 @@ public class SongServiceImpl implements SongService {
 		return songRepository.findAll();
 	}
 
+	@Override
+    public Page<Song> findAll(PageRequest pageRequest) {
+        return songRepository.findAll(pageRequest);
+    }
+
+    @Override
+    public long count() {
+        return songRepository.count();
+    }
+
 	
 }
