@@ -9,11 +9,6 @@ export const Navbar = () => {
     const handleCreatePlaylist = () => {
         navigate('/createplaylist');
     }
-
-    const handleMySongs = () => {
-        navigate('/allsongs');
-    }
-
     const handleMyPlaylist = () => {
         navigate('/allplaylist');
     }
@@ -32,12 +27,6 @@ export const Navbar = () => {
             <button className="text-xl text-white tracking-wide cursor-pointer hover:border-white hover:border-b-2 
               border-b-2 border-transparent transition duration-300" onClick={handleCreatePlaylist}>
               Crear playlist
-            </button>
-          </li>
-          <li className="mr-4">
-            <button className="text-xl text-white tracking-wide cursor-pointer hover:border-white hover:border-b-2 
-              border-b-2 border-transparent transition duration-300" onClick={handleMySongs}>
-              Mis canciones
             </button>
           </li>
           <li className='mr-4'>

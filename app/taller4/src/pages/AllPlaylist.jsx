@@ -59,6 +59,7 @@ const AllPlaylist = () => {
             {playlists.map((playlist) => (
               <Playlist
                 key={playlist.code}
+                code={playlist.code}
                 title={playlist.title}
                 description={playlist.description}
               />
