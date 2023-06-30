@@ -31,7 +31,7 @@ const PlaylistDetails = () => {
 
     return (
         <div>
-          <h1 className="text-2xl font-bold mb-4">Playlist {playlist.playlist.title}</h1>
+          <h1 className="text-3xl font-bold m-4">Playlist {playlist.playlist.title}</h1>
           <p className="text-sm text-gray-600 mb-4">Descripción: {playlist.playlist.description}</p>
           <p className="text-sm text-gray-600 mb-4">Total de reproducción: {playlist.total}</p>
           
