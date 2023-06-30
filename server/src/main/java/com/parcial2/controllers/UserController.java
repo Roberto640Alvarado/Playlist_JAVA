@@ -138,8 +138,8 @@ public ResponseEntity<?> getUserById(@PathVariable(name = "id") UUID id) {
     
 	@GetMapping("/playlist")
 	public ResponseEntity<PageDTO<Playlist>> findAllPlaylistsByUser(
-	        @RequestParam(defaultValue = "0") int page,
-	        @RequestParam(defaultValue = "5") int size,
+	        @RequestParam(defaultValue = "1") int page,
+	        @RequestParam(defaultValue = "6") int size,
 	        @RequestParam(name = "title", required = false) String title
 	) {
 	    User user = userService.findUserAuthenticated();
@@ -161,17 +161,26 @@ public ResponseEntity<?> getUserById(@PathVariable(name = "id") UUID id) {
 	                playlistsMatch.add(playlist);
 	            }
 	        }
-	        return new ResponseEntity<>(
-	                new PageDTO<>(playlistsMatch, 0, playlistsMatch.size(), playlistsMatch.size(), 1),
-	                HttpStatus.OK
-	        );
+	        PageDTO<Playlist> playlistPageDTO = paginateList(playlistsMatch, page, size);
+	        return new ResponseEntity<>(playlistPageDTO, HttpStatus.OK);
 	    } else {
-	        return new ResponseEntity<>(
-	                new PageDTO<>(userPlaylists, 0, userPlaylists.size(), userPlaylists.size(), 1),
-	                HttpStatus.OK
-	        );
+	        PageDTO<Playlist> playlistPageDTO = paginateList(userPlaylists, page, size);
+	        return new ResponseEntity<>(playlistPageDTO, HttpStatus.OK);
 	    }
 	}
+
+	private <T> PageDTO<T> paginateList(List<T> list, int page, int size) {
+	    int totalElements = list.size();
+	    int totalPages = (int) Math.ceil((double) totalElements / size);
+
+	    int fromIndex = (page - 1) * size;
+	    int toIndex = Math.min(fromIndex + size, totalElements);
+
+	    List<T> sublist = list.subList(fromIndex, toIndex);
+
+	    return new PageDTO<>(sublist, page, size, totalElements, totalPages);
+	}
+
 
 
 	
