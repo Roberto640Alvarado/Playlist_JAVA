@@ -12,7 +12,7 @@ const Playlist = (props) => {
   }
 
   const handleAddSong = () => {
-    navigate('/allsongs');
+    navigate(`/playlist/song/${props.code}`);
 
   }
 

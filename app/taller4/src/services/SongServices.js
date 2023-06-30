@@ -28,5 +28,26 @@ export const songServices = {
         } catch (error) {
             return {error: error}
         }
+    },
+    addSongToPlaylist: async (content, id,song) =>{
+        //let payload = code_song;
+        console.log(id);
+        console.log(song);
+        try {
+            const response = await API.post(`/playlist_song/playlist/${id}`, song,{
+                headers: {
+                    Authorization: `Bearer ${content}`
+                }
+            });
+            if (response) {
+                console.log(response.data);
+                return response.data;
+            } else {
+                throw new Error("Something went wrong");
+            }
+        } catch (error) {
+            console.log(error);
+            return {error: error}
+        }
     }
 }

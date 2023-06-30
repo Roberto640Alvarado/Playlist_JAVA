@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import SongCard from '../components/SongCard';
 import AppServices from '../services/AppServices';
 import context from '../context/UserContext';
 import Buttons from '../components/Buttons';
+import { songServices } from '../services/SongServices';
 
 const AllSongs = () => {
   const [songs, setSongs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [title, setTitle] = useState('');
+
+  const { code } = useParams();
+
+  console.log('code: ' + code);
 
   useEffect(() => {
     fetchAllSongs();
@@ -46,7 +52,23 @@ const AllSongs = () => {
       setCurrentPage((prevPage) => prevPage + 1);
     }
   };
-
+  const cancion = [];
+  const handleArray = (array) => {
+    cancion.push(array);
+  };
+  const handleSave = async () => {
+    cancion.forEach((e)=> console.log(e));
+    
+    cancion.forEach( async (e) => {
+      const token2 = context.getToken();
+      console.log(e);
+      let response = await songServices.addSongToPlaylist(token2,code,e.toString());
+      console.log(response);
+      //console.log(e.toString());
+    });
+    //let response = await songServices.addSongToPlaylist(token2,id,code_song);
+    //console.log(response);
+  };
   return (
     <>
       <div className="mb-6">
@@ -66,14 +88,15 @@ const AllSongs = () => {
               <SongCard
                 key={song._id}
                 isMainView={true}
-                code={song._id}
+                code={song.code}
                 title={song.title}
                 duration={song.duration}
+                handleArray = {handleArray}
               />
             ))}
         </div>
       </div>
-      <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 mb-4 rounded">
+      <button onClick={handleSave} className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 mb-4 rounded">
         Guardar
       </button>
       <Buttons

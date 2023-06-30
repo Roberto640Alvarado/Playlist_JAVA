@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 
 const SongCard = (props) => {
+
+  const [song, setSong] = useState([]);
+  const [isSelected, setIsSelected] = useState(false);
+
+  const handleChange = () => {
+    setIsSelected(!isSelected);
+      if (!isSelected) {
+        setSong([...song, props.code]);
+        props.handleArray(props.code);
+      }
+  };
+
   return (
     <div className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-lg rounded-lg overflow-hidden w-full sm:w-96 flex items-center">
       <img
@@ -13,7 +25,7 @@ const SongCard = (props) => {
         <div className="flex items-start justify-between">
           <p className="text-lg font-bold break-words text-left">Canción: {props.title}</p>
           <div  className='px-6 '>
-          <input type="checkbox" className="w-8 h-8" />
+          <input type="checkbox" className="w-8 h-8" checked={isSelected} onChange={handleChange} />
           </div>
         </div>
         <div className="flex items-center">

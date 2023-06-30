@@ -56,6 +56,14 @@ export const AppRouter = () => {
               </MainContainer>
             }
           />
+          <Route
+            path="/playlist/song/:code"
+            element={
+              <MainContainer>
+                <Allsongs />
+              </MainContainer>
+            }
+          />
         </Routes>
       </div>
     </Router>
