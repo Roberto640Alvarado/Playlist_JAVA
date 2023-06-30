@@ -20,13 +20,7 @@ const AllSongs = () => {
 
   const fetchAllSongs = async () => {
     const token = context.getToken();
-    let response;
-
-    if (title !== '') {
-      response = await AppServices.fetchAllSongs(token, currentPage, 6, title);
-    } else {
-      response = await AppServices.fetchAllSongs(token, currentPage, 6);
-    }
+    const response = await AppServices.fetchAllSongs(token, currentPage, 6, title);
 
     if (!response.error) {
       const { content, total_pages } = response;
@@ -87,6 +81,7 @@ const AllSongs = () => {
 };
 
 export default AllSongs;
+
 
 
 
