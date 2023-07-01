@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import SongCard from '../components/SongCard';
 import AppServices from '../services/AppServices';
+import SongServices from '../services/SongServices';
 import context from '../context/UserContext';
 import Buttons from '../components/Buttons';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const AllSongs = () => {
+  const { code } = useParams(); // code de la playlist
+  const navigate = useNavigate();
+
   const [songs, setSongs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [title, setTitle] = useState('');
+  const [selectedCodes, setSelectedCodes] = useState(new Set()); // array de code de las canciones
 
   useEffect(() => {
     fetchAllSongs();
@@ -41,6 +47,36 @@ const AllSongs = () => {
     }
   };
 
+  const handleSelectSong = (code) => {
+    setSelectedCodes((prevSelectedCodes) => {
+      const newSelectedCodes = new Set(prevSelectedCodes);
+
+      if (newSelectedCodes.has(code)) {
+        newSelectedCodes.delete(code);
+      } else {
+        newSelectedCodes.add(code);
+      }
+
+      return newSelectedCodes;
+    });
+  };
+
+  const handleSave = async () => {
+    const token = context.getToken();
+
+    const promises = Array.from(selectedCodes).map((songCode) => {
+      return SongServices.addSongToPlaylist(token, code, { song_code: songCode });
+    });
+
+    try {
+      const responses = await Promise.all(promises);
+      console.log(responses);
+      navigate('/allplaylist'); // Navegar a la página "/allplaylist" después de guardar exitosamente
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="mb-6">
@@ -58,17 +94,22 @@ const AllSongs = () => {
           {songs &&
             songs.map((song) => (
               <SongCard
-                key={song._id}
+                key={song.code}
                 isMainView={true}
-                code={song._id}
+                code={song.code}
                 title={song.title}
                 duration={song.duration}
+                onSelect={handleSelectSong}
+                isSelected={selectedCodes.has(song.code)}
               />
             ))}
         </div>
       </div>
-      <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 mb-4 rounded">
-        Guardar
+      <button
+        className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 mb-4 rounded"
+        onClick={handleSave}
+      >
+        Guardar ({selectedCodes.size})
       </button>
       <Buttons
         onPrevPage={handlePrevPage}
@@ -81,6 +122,11 @@ const AllSongs = () => {
 };
 
 export default AllSongs;
+
+
+
+
+
 
 
 

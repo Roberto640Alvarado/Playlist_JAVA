@@ -25,7 +25,7 @@ export const AppRouter = () => {
           <Route path="/" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route
-            path="/allsongs"
+            path="/allsongs/:code"
             element={
               <MainContainer>
                 <Allsongs />
