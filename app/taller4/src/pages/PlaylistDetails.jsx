@@ -29,6 +29,10 @@ const PlaylistDetails = () => {
     return <div>Cargando...</div>;
   }
 
+  const handleSelectSong = (code) => {
+     //
+  };
+
   const { playlist: playlistData, songs } = playlist;
   const playlistTitle = playlistData ? playlistData.title : '';
   const playlistDescription = playlistData ? playlistData.description : '';
@@ -45,7 +49,7 @@ const PlaylistDetails = () => {
           <div className='grid grid-cols-3 px-32 gap-10 mt-8'>
             {songs.map((song) => (
               <li key={song.title}>
-                <SongCard title={song.title} duration={song.duration} />
+                <SongCard title={song.title} duration={song.duration} onSelect={handleSelectSong} />
               </li>
             ))}
           </div>
