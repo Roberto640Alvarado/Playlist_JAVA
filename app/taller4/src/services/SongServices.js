@@ -11,7 +11,7 @@ const API = axios.create(
     }
 );
 
-export const songServices = {
+const songServices = {
     createSong: async (content, playload) => {
         try {
             const response = await API.post('/song/save', playload,{
@@ -28,5 +28,26 @@ export const songServices = {
         } catch (error) {
             return {error: error}
         }
-    }
+    },
+    addSongToPlaylist: async (token, id, song) => {
+        try {
+          const response = await API.post(`/playlist_song/playlist/${id}`, song, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+      
+          if (response.status === 201) {
+            return response.data; // Devuelve solo el cuerpo de la respuesta
+          } else {
+            throw new Error(response.status);
+          }
+        } catch (error) {
+          console.log(error);
+          return { error: error };
+        }
+      }
+      
 }
+
+export default songServices;

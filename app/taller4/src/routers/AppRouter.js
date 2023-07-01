@@ -29,7 +29,7 @@ export const AppRouter = () => {
           <Route path="/login" element={<Login />} />
             <Route element = {<PrivateRoutes/>}>
                 <Route
-                path="/allsongs"
+                path="/allsongs/:code"
                 element={
                   <MainContainer>
                     <Allsongs />
@@ -61,7 +61,6 @@ export const AppRouter = () => {
                 }
               />
             </Route>
-          
         </Routes>
       </div>
     </Router>
